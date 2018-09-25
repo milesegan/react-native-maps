@@ -40,7 +40,7 @@ static NSString *const RCTMapViewKey = @"MapView";
 @implementation AIRMapManager{
    BOOL _hasObserver;
 }
-  
+
 RCT_EXPORT_MODULE()
 
 - (UIView *)view
@@ -270,14 +270,7 @@ RCT_EXPORT_METHOD(fitToSuppliedMarkers:(nonnull NSNumber *)reactTag
             }];
 
             NSArray *filteredMarkers = [mapView.annotations filteredArrayUsingPredicate:filterMarkers];
-
-            CGFloat top = [RCTConvert CGFloat:edgePadding[@"top"]];
-            CGFloat right = [RCTConvert CGFloat:edgePadding[@"right"]];
-            CGFloat bottom = [RCTConvert CGFloat:edgePadding[@"bottom"]];
-            CGFloat left = [RCTConvert CGFloat:edgePadding[@"left"]];
-
-            [mapView showAnnotations:filteredMarkers edgePadding:UIEdgeInsetsMake(top, left, bottom, right) animated:animated];
-            
+            [mapView showAnnotations:filteredMarkers animated:animated];
         }
     }];
 }
@@ -367,7 +360,7 @@ RCT_EXPORT_METHOD(pointForCoordinate:(nonnull NSNumber *)reactTag
                                                              [coordinate[@"longitude"] doubleValue]
                                                              )
                                               toPointToView:mapView];
-            
+
             resolve(@{
                       @"x": @(touchPoint.x),
                       @"y": @(touchPoint.y),
@@ -393,7 +386,7 @@ RCT_EXPORT_METHOD(coordinateForPoint:(nonnull NSNumber *)reactTag
                                                              [point[@"y"] doubleValue]
                                                              )
                                                  toCoordinateFromView:mapView];
-            
+
             resolve(@{
                       @"latitude": @(coordinate.latitude),
                       @"longitude": @(coordinate.longitude),
@@ -543,7 +536,7 @@ RCT_EXPORT_METHOD(coordinateForPoint:(nonnull NSNumber *)reactTag
                 }
             }
         }
-        
+
         if ([overlay isKindOfClass:[AIRMapOverlay class]]) {
             AIRMapOverlay *imageOverlay = (AIRMapOverlay*) overlay;
             if (MKMapRectContainsPoint(imageOverlay.boundingMapRect, mapPoint)) {
@@ -820,7 +813,7 @@ static int kDragCenterContext;
 - (void)mapViewWillStartRenderingMap:(AIRMap *)mapView
 {
     if (!mapView.hasStartedRendering) {
-      mapView.onMapReady(@{}); 
+      mapView.onMapReady(@{});
       mapView.hasStartedRendering = YES;
     }
     [mapView beginLoading];
